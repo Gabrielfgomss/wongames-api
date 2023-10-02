@@ -1,0 +1,18 @@
+diff --git a/node_modules/@strapi/admin/admin/src/pages/HomePage/HomeHeader.js b/node_modules/@strapi/admin/admin/src/pages/HomePage/HomeHeader.js
+index 8fb94c5..56984e0 100644
+--- a/node_modules/@strapi/admin/admin/src/pages/HomePage/HomeHeader.js
++++ b/node_modules/@strapi/admin/admin/src/pages/HomePage/HomeHeader.js
+@@ -42,6 +42,13 @@ const HomeHeader = ({ hasCreatedContentType, onCreateCT }) => {
+                     'Congrats! You are logged as the first administrator. To discover the powerful features provided by Strapi, we recommend you to create your first Content type!',
+                 })}
+           </WordWrap>
++          <Link isExternal href="https://strapi.io/blog">
++              {formatMessage({
++                id: 'app.components.HomePage.button.blog',
++                defaultMessage: 'See more on the blog',
++              })}
++            </Link>
++
+           {hasCreatedContentType ? (
+             <Link isExternal href="https://strapi.io/blog">
+               {formatMessage({
