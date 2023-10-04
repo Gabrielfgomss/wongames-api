@@ -6,12 +6,13 @@ import { factories } from '@strapi/strapi';
 import { JSDOM } from 'jsdom'
 import slugify from 'slugify';
 import axios from 'axios';
+import qs from "querystring";
 
 const gameService = "api::game.game";
 const publisherService = "api::publisher.publisher";
 const developerService = "api::developer.developer";
 const categoryService = "api::category.category";
-const platformService = "api::platform.platform";
+const platformService = "api::plataform.plataform";
 
 function timeout(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -59,7 +60,8 @@ async function getByName(name, entityService) {
         });    
         return item.results.length > 0 ? item.results[0] : null;
     } catch (error) {
-      console.log("getByName:", Exception(error));
+      console.log(entityService)
+      console.log(`getByName: ${name}`, Exception(error));
     }
 }
 
@@ -76,6 +78,7 @@ async function create(name, entityService) {
           });
         }
       } catch (error) {
+        console.log(entityService)
         console.log("create:", Exception(error));
       }
 }
@@ -206,14 +209,14 @@ async function createGames(products) {
 export default factories.createCoreService('api::game.game', ({strapi}) => ({
     async populate(params) {
         try {
-            const gogApiUrl = `https://catalog.gog.com/v1/catalog?limit=48&order=desc%3Atrending`;
+            const gogApiUrl = `https://catalog.gog.com/v1/catalog?${qs.stringify(params)}`;
       
             const {
               data: { products },
             } = await axios.get(gogApiUrl);
       
-            await createManyToManyData([products[1], products[2]]);
-            await createGames([products[1], products[2]]);
+            await createManyToManyData(products);
+            await createGames(products);
           } catch (error) {
             console.log("populate:", Exception(error));
           }
